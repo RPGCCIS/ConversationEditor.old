@@ -18,12 +18,17 @@ namespace ConversationEditor
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		SpriteFont sf;
+		UI.UITree uitree;
+		UI.UIBox ui, ui2, ui3, ui4;
+
+		Texture2D blank;
 
 		public ConversationEditor()
 		{
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";	            
-			graphics.IsFullScreen = true;		
+			graphics.IsFullScreen = false;
+			IsMouseVisible = true;
 		}
 
 		/// <summary>
@@ -48,7 +53,24 @@ namespace ConversationEditor
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 			sf = Content.Load<SpriteFont>("Arial_14");
+			blank = new Texture2D(GraphicsDevice, 1, 1);
+			blank.SetData(new Color[]{ Color.White });
+			uitree = new UI.UITree(GraphicsDevice, spriteBatch);
+			ui = new UI.UIBox(5, 5, 20, 20, blank);
+			ui2 = new UI.UIBox(50, 50, 100, 100, blank);
+			ui3 = new UI.UIBox(100, 100, 50, 50, blank);
+			ui4 = new UI.UIBox(125, 125, 20, 20, blank);
+			uitree.Root.AddChild(ui);
+			uitree.Root.AddChild(ui2);
+			ui2.AddChild(ui3);
+			ui3.AddChild(ui4);
+
 			//TODO: use this.Content to load your game content here 
+		}
+
+		protected override void UnloadContent()
+		{
+			uitree.ShutDown();
 		}
 
 		/// <summary>
@@ -67,6 +89,7 @@ namespace ConversationEditor
 				Exit();
 			}
 			#endif
+			uitree.Update();
 			// TODO: Add your update logic here			
 			base.Update(gameTime);
 		}
@@ -78,8 +101,9 @@ namespace ConversationEditor
 		protected override void Draw(GameTime gameTime)
 		{
 			graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-		
 			spriteBatch.Begin();
+			uitree.Draw();
+			spriteBatch.Draw(blank, new Rectangle(Mouse.GetState().X - 1, Mouse.GetState().Y - 1, 2, 2), Color.Blue);
 			spriteBatch.End();
             
 			base.Draw(gameTime);

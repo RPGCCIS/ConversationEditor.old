@@ -2,11 +2,10 @@
 
 namespace ConversationEditor
 {
-	public class Conversation
+	public class ConversationElement
 	{
-		public Conversation()
+		public ConversationElement()
 		{
-			
 		}
 	}
 }
