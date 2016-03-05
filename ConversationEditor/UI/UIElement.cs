@@ -29,9 +29,6 @@ namespace ConversationEditor.UI
 		{
 			Children = new List<UIElement>();
 			bounds = new Rectangle(x, y, width, height);
-			Random r = new Random();
-			color = new Color(r.Next()%256, r.Next()%256, r.Next()%256);
-			Thread.Sleep(5);
 		}
 
 		public abstract bool Update();
