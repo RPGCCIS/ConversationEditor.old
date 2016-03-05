@@ -13,7 +13,7 @@ namespace ConversationEditor.UI
 		public List<UIElement> Children;
 		protected RenderTarget2D target;
 		protected SpriteBatch spriteBatch;
-		Rectangle bounds;
+		Rectangle bounds, dest, src;
 		Color color = Color.White;
 		protected SpriteBatch local;
 
@@ -29,6 +29,9 @@ namespace ConversationEditor.UI
 		{
 			Children = new List<UIElement>();
 			bounds = new Rectangle(x, y, width, height);
+			Random r = new Random();
+			color = new Color(r.Next()%256, r.Next()%256, r.Next()%256);
+			Thread.Sleep(5);
 		}
 
 		public abstract bool Update();
@@ -45,9 +48,19 @@ namespace ConversationEditor.UI
 				Draw(local);
 				local.End();
 				target.GraphicsDevice.SetRenderTarget(null);
-				spriteBatch.Draw(target, bounds.Location.ToVector2(), color);
+				if(Parent != null)
+				{
+					dest = Rectangle.Intersect(bounds, Parent.Bounds);
+					src = new Rectangle(dest.X - bounds.X, dest.Y - bounds.Y, dest.Width, dest.Height);
+					spriteBatch.Draw(target, dest, src, color);
+				}
+				else
+				{
+					spriteBatch.Draw(target, bounds, color);
+				}
 			}
 		}
+
 
 		public void AddChild(UIElement child)
 		{

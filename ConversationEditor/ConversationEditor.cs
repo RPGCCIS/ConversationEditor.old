@@ -59,7 +59,7 @@ namespace ConversationEditor
 			ui = new UI.UIBox(5, 5, 20, 20, blank);
 			ui2 = new UI.UIBox(50, 50, 100, 100, blank);
 			ui3 = new UI.UIBox(100, 100, 50, 50, blank);
-			ui4 = new UI.UIBox(125, 125, 20, 20, blank);
+			ui4 = new UI.UIBox(125, 125, 200, 200, blank);
 			uitree.Root.AddChild(ui);
 			uitree.Root.AddChild(ui2);
 			ui2.AddChild(ui3);
